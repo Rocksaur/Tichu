@@ -18,7 +18,7 @@
     body { padding: 8px; }
     .app { max-width: 430px; margin: 0 auto; }
     h1 {
-      margin: 65px 0 35px 0;
+      margin: 60px 0 40px 0;
       font-size: 19px;
       line-height: 1.15;
       text-align: center;
@@ -120,7 +120,7 @@
     }
     .controls {
       display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
+      grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 6px;
     }
     .control-btn {
@@ -142,7 +142,7 @@
     .control-btn.red { background: #fff0f0; border-color: #efb0b0; }
     @media (max-width: 390px) {
       body { padding: 6px; }
-      h1 { font-size: 19px; margin: 16px 0 16px 0; }
+      h1 { font-size: 19px; margin: 60px 0 40px 0; }
       .summary { margin-bottom: 7px; padding: 8px 9px; font-size: 14px; }
       .section { margin-bottom: 7px; padding: 6px; }
       .section-title { margin-bottom: 5px; font-size: 12px; }
@@ -165,7 +165,7 @@
   <div class="app">
     <h1>Tichu card counter<br>by 야옹열</h1>
 
-    <div class="summary" id="summaryText">전체 0/56 · 남음 56 · 일반 0/52 · 특수 0/4</div>
+    <div class="summary" id="summaryText">전체 0/56</div>
 
     <div class="section">
       <div class="section-title">특수 카드</div>
@@ -181,8 +181,6 @@
       <div class="section-title">기능</div>
       <div class="controls">
         <button type="button" class="control-btn" id="undoBtn">↶ 취소</button>
-        <button type="button" class="control-btn gray" id="clearNormalsBtn">일반 초기화</button>
-        <button type="button" class="control-btn gray" id="clearSpecialsBtn">특수 초기화</button>
         <button type="button" class="control-btn red" id="resetBtn">전체 초기화</button>
       </div>
     </div>
@@ -263,8 +261,7 @@
         var normalSeen = totalNormalSeen();
         var specialSeen = totalSpecialSeen();
         var totalSeen = normalSeen + specialSeen;
-        document.getElementById('summaryText').textContent =
-          '전체 ' + totalSeen + '/56 · 남음 ' + (56 - totalSeen) + ' · 일반 ' + normalSeen + '/52 · 특수 ' + specialSeen + '/4';
+        document.getElementById('summaryText').textContent = '전체 ' + totalSeen + '/56';
       }
       function renderRanks() {
         var buttons = document.querySelectorAll('.rank-card');
@@ -306,26 +303,13 @@
         var last = state.history.shift();
         if (last.type === 'rank') state.normalCounts[last.id] = last.prev;
         else if (last.type === 'special') state.specialSeen[last.id] = last.prev;
-        else if (last.type === 'clearNormals') state.normalCounts = cloneNormalCounts(last.prev || {});
-        else if (last.type === 'clearSpecials') state.specialSeen = last.prev || {};
         else if (last.type === 'resetAll') {
           state.normalCounts = cloneNormalCounts((last.prev && last.prev.normalCounts) || {});
           state.specialSeen = (last.prev && last.prev.specialSeen) || {};
         }
         save(); render();
       }
-      function clearNormals() {
-        pushHistory({ type: 'clearNormals', prev: cloneNormalCounts(state.normalCounts) });
-        state.normalCounts = emptyNormalCounts();
-        save(); render();
-      }
-      function clearSpecials() {
-        var prev = {};
-        for (var key in state.specialSeen) prev[key] = state.specialSeen[key];
-        pushHistory({ type: 'clearSpecials', prev: prev });
-        state.specialSeen = {};
-        save(); render();
-      }
+
       function resetAll() {
         pushHistory({
           type: 'resetAll',
@@ -366,13 +350,7 @@
         }
       }
       document.getElementById('undoBtn').addEventListener('click', undoLast);
-      document.getElementById('clearNormalsBtn').addEventListener('click', clearNormals);
-      document.getElementById('clearSpecialsBtn').addEventListener('click', clearSpecials);
-      document.getElementById('resetBtn').addEventListener('click', function () {
-        var ok = window.confirm('모든 체크를 초기화할까요?');
-        if (!ok) return;
-        resetAll();
-      });
+      document.getElementById('resetBtn').addEventListener('click', resetAll);
       load();
       buildBoard();
       render();
