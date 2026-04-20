@@ -3,7 +3,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <meta name="format-detection" content="telephone=no">
-  <title>Tichu card counter by 야옹열</title>
+  <title>Tichu card counter<br>by 야옹열</title>
   <style>
     * { box-sizing: border-box; }
     html, body {
