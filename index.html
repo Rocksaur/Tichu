@@ -25,6 +25,10 @@
       font-weight: 800;
       letter-spacing: -0.02em;
     }
+    .byline {
+      display: inline-block;
+      font-size: 0.82em;
+    }
     .summary {
       margin: 0 0 8px 0;
       border: 1px solid #d9d9d9;
@@ -202,22 +206,19 @@
 </head>
 <body>
   <div class="app">
-    <h1>Tichu card counter<br>by 야옹열</h1>
+    <h1>Tichu card counter<br><span class="byline">by 야옹열</span></h1>
 
     <div class="summary" id="summaryText">전체 0/56</div>
 
     <div class="section">
-      <div class="section-title">특수 카드</div>
       <div class="grid special-grid" id="specialGrid"></div>
     </div>
 
     <div class="section">
-      <div class="section-title">숫자 카드 (2~A, 각 4장)</div>
       <div class="grid rank-grid" id="rankGrid"></div>
     </div>
 
     <div class="section">
-      <div class="section-title">기능</div>
       <div class="controls">
         <button type="button" class="control-btn" id="undoBtn">↶ 취소</button>
         <button type="button" class="control-btn red" id="resetBtn">전체 초기화</button>
@@ -337,7 +338,8 @@
       }
       function onSpecialClick(id) {
         var prev = !!state.specialSeen[id];
-        state.specialSeen[id] = !prev;
+        if (prev) return;
+        state.specialSeen[id] = true;
         pushHistory({ type: 'special', id: id, prev: prev });
         save(); render();
       }
