@@ -18,7 +18,7 @@
     body { padding: 8px; }
     .app { max-width: 430px; margin: 0 auto; }
     h1 {
-      margin: 60px 0 40px 0;
+      margin: 50px 0 40px 0;
       font-size: 19px;
       line-height: 1.15;
       text-align: center;
@@ -140,6 +140,32 @@
     }
     .control-btn.gray { color: #555555; }
     .control-btn.red { background: #fff0f0; border-color: #efb0b0; }
+    .donate-wrap { margin-top: 20px; }
+    .donate-account {
+      margin-top: 8px;
+      text-align: center;
+      font-size: 12px;
+      line-height: 1.45;
+      color: #444444;
+      word-break: keep-all;
+    }
+    .donate-btn {
+      display: block;
+      width: 100%;
+      min-height: 38px;
+      border: 1px solid #f2d36a;
+      border-radius: 10px;
+      background: #ffeb7a;
+      font: inherit;
+      font-size: 12px;
+      font-weight: 800;
+      color: #3a2c00;
+      padding: 9px 6px;
+      text-align: center;
+      text-decoration: none;
+      -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
+    }
     @media (max-width: 390px) {
       body { padding: 6px; }
       h1 { font-size: 19px; margin: 60px 0 40px 0; }
@@ -154,6 +180,8 @@
       .badge { font-size: 14px; min-width: 26px; }
       .controls { gap: 5px; }
       .control-btn { min-height: 36px; font-size: 11px; padding: 5px 3px; }
+      .donate-btn { min-height: 36px; font-size: 11px; padding: 8px 5px; }
+      .donate-account { font-size: 11px; margin-top: 7px; }
     }
     @media (max-width: 340px) {
       .rank-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
@@ -182,6 +210,10 @@
       <div class="controls">
         <button type="button" class="control-btn" id="undoBtn">↶ 취소</button>
         <button type="button" class="control-btn red" id="resetBtn">전체 초기화</button>
+      </div>
+      <div class="donate-wrap">
+        <a class="donate-btn" href="https://qr.kakaopay.com/Ej7s8F11q" target="_blank" rel="noopener noreferrer">후원하기</a>
+        <div class="donate-account">하나은행 576-910150-92207<br>예금주: 이동열</div>
       </div>
     </div>
   </div>
