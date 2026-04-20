@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html lang="ko">
 <head>
   <meta charset="UTF-8">
@@ -19,7 +18,7 @@
     .app { max-width: 430px; margin: 0 auto; }
     h1 {
       margin: 0 0 6px 0;
-      font-size: 18px;
+      font-size: 11px;
       line-height: 1.15;
       text-align: center;
       font-weight: 800;
@@ -142,7 +141,7 @@
     .control-btn.red { background: #fff0f0; border-color: #efb0b0; }
     @media (max-width: 390px) {
       body { padding: 6px; }
-      h1 { font-size: 17px; margin-bottom: 5px; }
+      h1 { font-size: 10px; margin-bottom: 5px; }
       .summary { margin-bottom: 7px; padding: 6px 7px; font-size: 11px; }
       .section { margin-bottom: 7px; padding: 6px; }
       .section-title { margin-bottom: 5px; font-size: 12px; }
