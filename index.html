@@ -148,6 +148,17 @@
       line-height: 1.45;
       color: #444444;
       word-break: keep-all;
+      cursor: pointer;
+      user-select: none;
+      -webkit-user-select: none;
+      -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
+      padding: 6px 8px;
+      border-radius: 10px;
+    }
+    .donate-account.copied {
+      background: #f5f7fb;
+      color: #1d4ed8;
     }
     .donate-btn {
       display: block;
@@ -168,7 +179,7 @@
     }
     @media (max-width: 390px) {
       body { padding: 6px; }
-      h1 { font-size: 19px; margin: 60px 0 40px 0; }
+      h1 { font-size: 19px; margin: 40px 0 30px 0; }
       .summary { margin-bottom: 7px; padding: 8px 9px; font-size: 14px; }
       .section { margin-bottom: 7px; padding: 6px; }
       .section-title { margin-bottom: 5px; font-size: 12px; }
@@ -213,7 +224,7 @@
       </div>
       <div class="donate-wrap">
         <a class="donate-btn" href="https://qr.kakaopay.com/Ej7s8F11q" target="_blank" rel="noopener noreferrer">후원하기</a>
-        <div class="donate-account">하나은행 576-910150-92207<br>예금주: 이동열</div>
+        <div class="donate-account" id="donateAccount" role="button" tabindex="0" aria-label="계좌번호 복사">하나은행 576-910150-92207<br>예금주: 이동열</div>
       </div>
     </div>
   </div>
@@ -356,6 +367,55 @@
         state.specialSeen = {};
         save(); render();
       }
+
+      function copyText(text) {
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          return navigator.clipboard.writeText(text).catch(function () {
+            return fallbackCopyText(text);
+          });
+        }
+        return fallbackCopyText(text);
+      }
+      function fallbackCopyText(text) {
+        return new Promise(function (resolve, reject) {
+          try {
+            var ta = document.createElement('textarea');
+            ta.value = text;
+            ta.setAttribute('readonly', '');
+            ta.style.position = 'fixed';
+            ta.style.top = '-9999px';
+            ta.style.opacity = '0';
+            document.body.appendChild(ta);
+            ta.focus();
+            ta.select();
+            ta.setSelectionRange(0, ta.value.length);
+            var ok = document.execCommand('copy');
+            document.body.removeChild(ta);
+            if (ok) resolve();
+            else reject(new Error('copy failed'));
+          } catch (e) {
+            reject(e);
+          }
+        });
+      }
+      function flashAccountCopied(success) {
+        var el = document.getElementById('donateAccount');
+        if (!el) return;
+        clearTimeout(flashAccountCopied._timer);
+        el.classList.add('copied');
+        el.innerHTML = success ? '계좌번호 복사됨<br>하나은행 576-910150-92207' : '복사 실패 · 길게 눌러 복사<br>하나은행 576-910150-92207';
+        flashAccountCopied._timer = setTimeout(function () {
+          el.classList.remove('copied');
+          el.innerHTML = '하나은행 576-910150-92207<br>예금주: 이동열';
+        }, 1400);
+      }
+      function onAccountCopy() {
+        copyText('576-910150-92207').then(function () {
+          flashAccountCopied(true);
+        }).catch(function () {
+          flashAccountCopied(false);
+        });
+      }
       function buildBoard() {
         var specialGrid = document.getElementById('specialGrid');
         for (var i = 0; i < specials.length; i += 1) {
@@ -383,6 +443,8 @@
       }
       document.getElementById('undoBtn').addEventListener('click', undoLast);
       document.getElementById('resetBtn').addEventListener('click', resetAll);
+      document.getElementById('donateAccount').addEventListener('click', onAccountCopy);
+      document.getElementById('donateAccount').addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onAccountCopy(); } });
       load();
       buildBoard();
       render();
