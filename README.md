@@ -1,4 +1,4 @@
-# Tichu card counter by 야옹열
+# Tichu card counter by Rocksaur
 
 티츄(Tichu) 플레이 중 **이미 나온 카드**를 빠르게 체크해서 남은 카드를 추적할 수 있는 초경량 웹앱입니다.
 
